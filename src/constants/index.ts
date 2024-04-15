@@ -1,4 +1,6 @@
+import icons from "./icons";
+import images from "./images";
+
+export { icons, images };
+
 export * from "./colors";
-export * from "./fontFamily";
-export * from "./icons";
-export * from "./images";

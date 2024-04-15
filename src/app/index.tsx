@@ -10,10 +10,10 @@ export default function App() {
       </Text>
       <StatusBar style='auto' />
       <Link
-        href={"/profile"}
+        href={"/home"}
         className='text-xl font-semibold text-indigo-500 underline underline-offset-8'
       >
-        Go to Profile
+        Go to Home
       </Link>
     </View>
   );
