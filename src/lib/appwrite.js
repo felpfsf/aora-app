@@ -34,11 +34,7 @@ export const createUser = async (username, email, password) => {
 
     if (!newAccount) throw Error;
 
-    const avatarUrl = await avatars.getInitials(username, {
-      backgroundColor: "green",
-      color: "white",
-      size: 128,
-    });
+    const avatarUrl = await avatars.getInitials(username);
 
     await signIn(email, password);
 
