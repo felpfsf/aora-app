@@ -13,4 +13,5 @@ export const colors = {
   gray: {
     100: "#CDCDE0",
   },
+  placeholder: "#7B7B8B",
 };
