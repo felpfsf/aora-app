@@ -1,8 +1,10 @@
 import { CustomButton, FormField } from "@/components";
 import { colors, images } from "@/constants";
-import { Link } from "expo-router";
+import { createUser } from "@/lib/appwrite";
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
+  Alert,
   Dimensions,
   Image,
   SafeAreaView,
@@ -19,7 +21,36 @@ const SignUp = () => {
   });
   const [isSubmiting, setIsSubmiting] = useState(false);
 
-  const submit = () => {};
+  const submit = async () => {
+    if (!form.username || !form.email || !form.password) {
+      Alert.alert("Error", "Please fill in all fields");
+    }
+
+    try {
+      setIsSubmiting(true);
+
+      console.log("🚀 ~ submit ~ form.password:", form.password);
+      console.log("🚀 ~ submit ~ form.email:", form.email);
+      console.log("🚀 ~ submit ~ form.username:", form.username);
+
+      const response = await createUser(
+        form.username,
+        form.email,
+        form.password
+      );
+
+      if (!response) throw Error;
+      // set it to store
+      console.log("🚀 ~ submit ~ response:", response);
+      
+      router.replace("/home");
+    } catch (error: unknown) {
+      const err = error as Error;
+      Alert.alert("Error", err.message);
+    } finally {
+      setIsSubmiting(false);
+    }
+  };
   return (
     <SafeAreaView style={{ backgroundColor: colors.primary, height: "100%" }}>
       <ScrollView>
