@@ -29,10 +29,6 @@ const SignUp = () => {
     try {
       setIsSubmiting(true);
 
-      console.log("🚀 ~ submit ~ form.password:", form.password);
-      console.log("🚀 ~ submit ~ form.email:", form.email);
-      console.log("🚀 ~ submit ~ form.username:", form.username);
-
       const response = await createUser(
         form.username,
         form.email,
