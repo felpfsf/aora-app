@@ -46,7 +46,7 @@ export const createUser = async (username, email, password) => {
         accountId: newAccount.$id,
         username,
         email,
-        avatarUrl,
+        avatar:avatarUrl,
       }
     );
 
