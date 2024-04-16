@@ -1,7 +1,7 @@
 import { CustomButton, FormField } from "@/components";
 import { colors, images } from "@/constants";
 import { useAuthStore } from "@/context/auth-store";
-import { signIn } from "@/lib/appwrite";
+import { getCurrentUser, signIn } from "@/lib/appwrite";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -29,10 +29,11 @@ const SignIn = () => {
         Alert.alert("Please fill all fields");
       }
 
-      const response = await signIn(form.email, form.password);
+      await signIn(form.email, form.password);
+      const response = await getCurrentUser();
 
       // set it to store
-      console.log("🚀 ~ submit ~ response:", JSON.stringify(response));
+      console.log("🚀 ~ submit ~ response:", response);
       authStore.setUser(response);
 
       router.replace("/home");

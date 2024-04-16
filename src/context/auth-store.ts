@@ -3,31 +3,16 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserDataDto {
-  $id: string;
+  $collectionId: string;
   $createdAt: string;
-  userId: string;
-  expire: string;
-  provider: string;
-  providerUid: string;
-  providerAccessToken: string;
-  providerAccessTokenExpiry: string;
-  providerRefreshToken: string;
-  ip: string;
-  osCode: string;
-  osName: string;
-  osVersion: string;
-  clientType: string;
-  clientCode: string;
-  clientName: string;
-  clientVersion: string;
-  clientEngine: string;
-  clientEngineVersion: string;
-  deviceName: string;
-  deviceBrand: string;
-  deviceModel: string;
-  countryCode: string;
-  countryName: string;
-  current: boolean;
+  $databaseId: string;
+  $id: string;
+  $permissions: string[];
+  $updatedAt: string;
+  accountId: string;
+  avatar: string;
+  email: string;
+  username: string;
 }
 
 type StateProps = {
