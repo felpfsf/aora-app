@@ -46,7 +46,7 @@ export const createUser = async (username, email, password) => {
         accountId: newAccount.$id,
         username,
         email,
-        avatar:avatarUrl,
+        avatar: avatarUrl,
       }
     );
 
@@ -60,6 +60,15 @@ export async function signIn(email, password) {
   try {
     const session = await account.createEmailSession(email, password);
 
+    return session;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function signOut() {
+  try {
+    const session = await account.deleteSession("current");
     return session;
   } catch (error) {
     throw new Error(error);
