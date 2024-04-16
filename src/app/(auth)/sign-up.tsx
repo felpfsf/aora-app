@@ -1,5 +1,6 @@
 import { CustomButton, FormField } from "@/components";
 import { colors, images } from "@/constants";
+import { useAuthStore } from "@/context/auth-store";
 import { createUser } from "@/lib/appwrite";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
@@ -14,6 +15,7 @@ import {
 } from "react-native";
 
 const SignUp = () => {
+  const authStore = useAuthStore();
   const [form, setForm] = useState({
     email: "",
     username: "",
@@ -38,7 +40,8 @@ const SignUp = () => {
       if (!response) throw Error;
       // set it to store
       console.log("🚀 ~ submit ~ response:", response);
-      
+      authStore.setUser(response);
+
       router.replace("/home");
     } catch (error: unknown) {
       const err = error as Error;

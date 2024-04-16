@@ -1,8 +1,11 @@
 import { CustomButton, FormField } from "@/components";
 import { colors, images } from "@/constants";
-import { Link } from "expo-router";
+import { useAuthStore } from "@/context/auth-store";
+import { signIn } from "@/lib/appwrite";
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
+  Alert,
   Dimensions,
   Image,
   SafeAreaView,
@@ -12,13 +15,34 @@ import {
 } from "react-native";
 
 const SignIn = () => {
+  const authStore = useAuthStore();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
   const [isSubmiting, setIsSubmiting] = useState(false);
 
-  const submit = () => {};
+  const submit = async () => {
+    try {
+      setIsSubmiting(true);
+      if (!form) {
+        Alert.alert("Please fill all fields");
+      }
+
+      const response = await signIn(form.email, form.password);
+
+      // set it to store
+      console.log("🚀 ~ submit ~ response:", JSON.stringify(response));
+      authStore.setUser(response);
+
+      router.replace("/home");
+    } catch (error) {
+      const err = error as Error;
+      Alert.alert("Error", err.message);
+    } finally {
+      setIsSubmiting(false);
+    }
+  };
   return (
     <SafeAreaView style={{ backgroundColor: colors.primary, height: "100%" }}>
       <ScrollView>

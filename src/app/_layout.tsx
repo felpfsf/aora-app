@@ -1,8 +1,9 @@
+import { useAuthStore } from "@/context/auth-store";
 import "@/styles/global.css";
 
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
-import React, { useEffect } from "react";
+import { SplashScreen, Stack, router } from "expo-router";
+import React, { useEffect, useState } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +21,8 @@ const FONTS = {
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts(FONTS);
+  const { user } = useAuthStore();
+  const [initialCheck, setInitialCheck] = useState(false);
 
   useEffect(() => {
     if (error) throw error;
@@ -28,6 +31,13 @@ const RootLayout = () => {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, error]);
+
+  useEffect(() => {
+    if (user && fontsLoaded) {
+      router.replace("/home");
+      setInitialCheck(true);
+    }
+  }, [initialCheck, fontsLoaded, user]);
 
   if (!fontsLoaded) return null;
 

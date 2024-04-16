@@ -1,6 +1,7 @@
 import { colors, icons } from "@/constants";
-import { Tabs } from "expo-router";
-import React from "react";
+import { useAuthStore } from "@/context/auth-store";
+import { Tabs, router } from "expo-router";
+import React, { useEffect } from "react";
 import type { ImageSourcePropType } from "react-native";
 import { Image, StyleSheet, Text, View } from "react-native";
 
@@ -30,6 +31,14 @@ const TabIcon = ({ color, focused, icon, name }: TabIconProps) => {
 };
 
 const TabsLayout = () => {
+  const { user } = useAuthStore();
+
+  useEffect(() => {
+    if (!user) {
+      router.replace("/");
+    }
+  }, [user]);
+
   return (
     <>
       <Tabs
