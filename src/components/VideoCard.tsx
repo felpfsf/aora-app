@@ -38,7 +38,7 @@ const VideoCard = ({ users, thumbnail, title, video }: VideoProps) => {
       </View>
       {play ? (
         <View className='flex items-center justify-center w-full mt-3 h-60 rounded-xl'>
-          <Text className='text-xs text-gray-100 font-pmedium'>Playing</Text>
+          <Text className='text-white'>Playing</Text>
         </View>
       ) : (
         <TouchableOpacity
@@ -51,9 +51,10 @@ const VideoCard = ({ users, thumbnail, title, video }: VideoProps) => {
             className='w-full h-full mt-3 rounded-xl'
             resizeMode='cover'
           />
+
           <Image
             source={icons.play}
-            className='absolute w-12 h-12'
+            className='absolute w-10 h-10'
             resizeMode='contain'
           />
         </TouchableOpacity>
