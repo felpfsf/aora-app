@@ -32,7 +32,7 @@ const databases = new Databases(client);
 
 /**
  * Users
- * 
+ *
  */
 
 export const createUser = async (username, email, password) => {
@@ -131,6 +131,20 @@ export async function getAllPosts() {
     );
 
     return posts.documents;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function getLatestPosts() {
+  try {
+    const latestsPosts = await databases.listDocuments(
+      config.databaseId,
+      config.videosCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(7)]
+    );
+
+    return latestsPosts.documents;
   } catch (error) {
     throw new Error(error);
   }
