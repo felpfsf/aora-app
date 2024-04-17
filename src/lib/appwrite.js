@@ -1,4 +1,11 @@
-import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
+import {
+  Account,
+  Avatars,
+  Client,
+  Databases,
+  ID,
+  Query,
+} from "react-native-appwrite";
 
 export const config = {
   endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
@@ -22,6 +29,11 @@ client
 const account = new Account(client);
 const avatars = new Avatars(client);
 const databases = new Databases(client);
+
+/**
+ * Users
+ * 
+ */
 
 export const createUser = async (username, email, password) => {
   try {
@@ -102,6 +114,24 @@ export async function getCurrentUser() {
     return currentUser.documents[0];
   } catch (error) {
     console.log(error);
+    throw new Error(error);
+  }
+}
+
+/**
+ * Posts
+ *
+ */
+
+export async function getAllPosts() {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videosCollectionId
+    );
+
+    return posts.documents;
+  } catch (error) {
     throw new Error(error);
   }
 }
