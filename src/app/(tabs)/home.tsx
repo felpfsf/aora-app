@@ -4,7 +4,7 @@ import Trending from "@/components/Trending";
 import VideoCard from "@/components/VideoCard";
 import { colors, images } from "@/constants";
 import { useAuthStore } from "@/context/auth-store";
-import { getAllPosts, signOut } from "@/lib/appwrite";
+import { getAllPosts, getLatestPosts, signOut } from "@/lib/appwrite";
 import { useFetchAppwrite } from "@/lib/useFetchAppwrite";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -15,8 +15,17 @@ interface PostsProps {
 }
 const Home = () => {
   const { removeUser, user } = useAuthStore();
-  const { data: posts, isLoading, refetch } = useFetchAppwrite(getAllPosts());
   const [refreshing, setRefreshing] = useState(false);
+  const {
+    data: posts,
+    isLoading: isLoadingLatests,
+    refetch: refetchLatests,
+  } = useFetchAppwrite(getAllPosts());
+  const {
+    data: latestPosts,
+    isLoading,
+    refetch,
+  } = useFetchAppwrite(getLatestPosts());
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -24,8 +33,6 @@ const Home = () => {
     await refetch();
     setRefreshing(false);
   };
-
-  const mock = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
   const logout = async () => {
     await signOut();
@@ -75,7 +82,7 @@ const Home = () => {
                 Latest Videos
               </Text>
 
-              <Trending posts={mock ?? []} />
+              <Trending posts={latestPosts ?? []} />
             </View>
           </View>
         )}
