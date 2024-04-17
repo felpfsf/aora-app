@@ -1,21 +1,27 @@
 import EmptyState from "@/components/EmptyState";
 import SearchInput from "@/components/SearchInput";
 import Trending from "@/components/Trending";
+import VideoCard from "@/components/VideoCard";
 import { colors, images } from "@/constants";
 import { useAuthStore } from "@/context/auth-store";
-import { signOut } from "@/lib/appwrite";
+import { getAllPosts, signOut } from "@/lib/appwrite";
+import { useFetchAppwrite } from "@/lib/useFetchAppwrite";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Image, RefreshControl, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+interface PostsProps {
+  title: string;
+}
 const Home = () => {
   const { removeUser, user } = useAuthStore();
+  const { data: posts, isLoading, refetch } = useFetchAppwrite(getAllPosts());
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
     // call api again with latest data
+    await refetch();
     setRefreshing(false);
   };
 
@@ -30,9 +36,9 @@ const Home = () => {
   return (
     <SafeAreaView style={{ backgroundColor: colors.primary, height: "100%" }}>
       <FlatList
-        data={mock}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Text className='text-white'>{item.id}</Text>}
+        data={posts}
+        keyExtractor={(item) => item.$id}
+        renderItem={({ item }) => <VideoCard {...item} />}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
